@@ -24,6 +24,8 @@ public class VolumeChangeObserver {
     // 最大音量
     private double mMaxVolume;
 
+    private int flag = AudioManager.FLAG_SHOW_UI;
+
     public interface VolumeChangeListener {
         /**
          * 系统媒体音量变化
@@ -76,9 +78,9 @@ public class VolumeChangeObserver {
         if(mAudioManager != null){
             try{
                 // 设置音量
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, flag);
                 if(volume<1){
-                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,  0);
+                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,  flag);
                 }
             }catch (Exception ex){
                 //禁止日志
