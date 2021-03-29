@@ -47,8 +47,13 @@ public class VolumeChangeObserver {
      * @return
      */
     public double getCurrentMusicVolume() {
-        int currentVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) : -1;
-        return currentVolume / mMaxVolume;
+        int currentMusicVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) : -1;
+        int maxMusicVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) : 15;
+        double currentMusic = currentMusicVolume / currentMusicVolume;
+        int currentVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL) : -1;
+        int maxVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL) : 15;
+        double currentVoiceCall = currentVoiceCallVolume / maxVoiceCallVolume;
+        return (currentMusic > currentVoiceCall) ? currentMusic : currentVoiceCall;
     }
 
     /**
@@ -79,8 +84,10 @@ public class VolumeChangeObserver {
             try{
                 // 设置音量
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, flag);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, volume, flag);
                 if(volume<1){
                     mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,  flag);
+                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER,  flag);
                 }
             }catch (Exception ex){
                 //禁止日志
@@ -136,7 +143,7 @@ public class VolumeChangeObserver {
         @Override
         public void onReceive(Context context, Intent intent) {
             //媒体音量改变才通知
-            if (VOLUME_CHANGED_ACTION.equals(intent.getAction()) && (intent.getIntExtra(EXTRA_VOLUME_STREAM_TYPE, -1) == AudioManager.STREAM_MUSIC)) {
+            if (VOLUME_CHANGED_ACTION.equals(intent.getAction()) && ((intent.getIntExtra(EXTRA_VOLUME_STREAM_TYPE, -1) == AudioManager.STREAM_MUSIC) || (intent.getIntExtra(EXTRA_VOLUME_STREAM_TYPE, -1) == AudioManager.STREAM_VOICE_CALL))) {
                 VolumeChangeObserver observer = mObserverWeakReference.get();
                 if (observer != null) {
                     VolumeChangeListener listener = observer.getVolumeChangeListener();
