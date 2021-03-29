@@ -49,7 +49,7 @@ public class VolumeChangeObserver {
     public double getCurrentMusicVolume() {
         int currentMusicVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) : -1;
         int maxMusicVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) : 15;
-        double currentMusic = currentMusicVolume / currentMusicVolume;
+        double currentMusic = currentMusicVolume / maxMusicVolume;
         int currentVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL) : -1;
         int maxVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL) : 15;
         double currentVoiceCall = currentVoiceCallVolume / maxVoiceCallVolume;
