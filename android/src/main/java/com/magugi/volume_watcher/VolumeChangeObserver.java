@@ -83,11 +83,11 @@ public class VolumeChangeObserver {
         if(mAudioManager != null){
             try{
                 // 设置音量
+                mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, volume, 0);
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, flag);
-                mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, volume, flag);
                 if(volume<1){
+                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER,  0);
                     mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,  flag);
-                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER,  flag);
                 }
             }catch (Exception ex){
                 //禁止日志
