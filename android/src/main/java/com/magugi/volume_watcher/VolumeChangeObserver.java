@@ -47,13 +47,8 @@ public class VolumeChangeObserver {
      * @return
      */
     public double getCurrentMusicVolume() {
-        int currentMusicVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) : -1;
-        int maxMusicVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) : 15;
-        double currentMusic = currentMusicVolume / maxMusicVolume;
-        int currentVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL) : -1;
-        int maxVoiceCallVolume = mAudioManager != null ? mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL) : 15;
-        double currentVoiceCall = currentVoiceCallVolume / maxVoiceCallVolume;
-        return (currentMusic > currentVoiceCall) ? currentMusic : currentVoiceCall;
+        int currentVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) : -1;
+        return currentVolume / mMaxVolume;
     }
 
     /**
@@ -83,10 +78,13 @@ public class VolumeChangeObserver {
         if(mAudioManager != null){
             try{
                 // 设置音量
+                // 6 is mean the bluetooth headset.
+                mAudioManager.setStreamVolume(6, volume, 0);
                 mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, volume, 0);
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, flag);
                 if(volume<1){
-                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER,  0);
+                    mAudioManager.adjustStreamVolume(6, AudioManager.ADJUST_LOWER,  0);
+                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_VOICE_CALL, AudioManager.ADJUST_LOWER, 0);
                     mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER,  flag);
                 }
             }catch (Exception ex){
