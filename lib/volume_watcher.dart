@@ -91,6 +91,11 @@ class VolumeWatcher extends StatefulWidget {
     return currentVolume;
   }
 
+  static Future<double> get getCurrentRingVolume async {
+    final double currentVolume = await methodChannel.invokeMethod('getCurrentRingVolume', {});
+    return currentVolume;
+  }
+
   /*
    * 设置系统音量
    */

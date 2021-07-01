@@ -51,6 +51,11 @@ public class VolumeChangeObserver {
         return currentVolume / mMaxVolume;
     }
 
+    public double getCurrentRingVolume() {
+        int currentVolume = mAudioManager != null ? mAudioManager.getStreamVolume(AudioManager.STREAM_RING) : -1;
+        return currentVolume / mMaxVolume;
+    }
+
     /**
      * 获取系统最大媒体音量
      *

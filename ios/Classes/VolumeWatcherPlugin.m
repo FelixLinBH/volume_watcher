@@ -50,11 +50,20 @@
         //参数
         NSDictionary *dic = call.arguments;
         NSLog(@"arguments = %@", dic);
-        
+
         // 获取系统音量
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         float currentVol = audioSession.outputVolume;
         result(@(currentVol));
+    } else if ([@"getCurrentRingVolume" isEqualToString:call.method]) {
+          //参数
+          NSDictionary *dic = call.arguments;
+          NSLog(@"arguments = %@", dic);
+
+          // 获取系统音量
+          AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+          float currentVol = audioSession.outputVolume;
+          result(@(currentVol));
     } else if ([@"setVolume" isEqualToString:call.method]) {
         @autoreleasepool {
             bool success = true;

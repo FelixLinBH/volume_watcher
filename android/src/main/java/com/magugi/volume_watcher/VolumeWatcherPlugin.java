@@ -64,6 +64,8 @@ public class VolumeWatcherPlugin implements FlutterPlugin, StreamHandler, Method
             result.success(mVolumeChangeObserver.getMaxMusicVolume());
         } else if (call.method.equals("getCurrentVolume")) {
             result.success(mVolumeChangeObserver.getCurrentMusicVolume());
+        } else if (call.method.equals("getCurrentRingVolume")) {
+            result.success(mVolumeChangeObserver.getCurrentRingVolume());
         } else if (call.method.equals("setVolume")) {
             boolean success = true;
             try {
